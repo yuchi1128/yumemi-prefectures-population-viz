@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { usePrefecture } from '../contexts/PrefectureContext';
@@ -37,7 +37,7 @@ const PrefecturePopulationChart = () => {
   const { selectedPrefectures, selectedDataType } = usePrefecture();
   const apiToken = process.env.NEXT_PUBLIC_X_API_KEY;
 
-  const fetchPrefectures = async () => {
+  const fetchPrefectures = useCallback(async () => {
     try {
       const res = await fetch(PREFECTURE_API, {
         headers: {
@@ -52,9 +52,9 @@ const PrefecturePopulationChart = () => {
     } catch (error) {
       console.error("Error fetching prefecture data:", error);
     }
-  };
+  }, [apiToken]);
 
-  const fetchPopulationData = async (prefCode: number) => {
+  const fetchPopulationData = useCallback(async (prefCode: number) => {
     try {
       const response = await fetch(
         `https://yumemi-frontend-engineer-codecheck-api.vercel.app/api/v1/population/composition/perYear?prefCode=${prefCode}`,
@@ -75,7 +75,7 @@ const PrefecturePopulationChart = () => {
     } catch (error) {
       console.error("Error fetching population data:", error);
     }
-  };
+  }, [apiToken]);
 
   const getPrefectureName = (prefCode: number): string => {
     const prefecture = prefectures.find(pref => pref.prefCode === Number(prefCode));
@@ -84,8 +84,8 @@ const PrefecturePopulationChart = () => {
 
   const getChartOptions = (): Highcharts.Options => {
     const series = Object.entries(selectedPrefectures)
-      .filter(([_, isSelected]) => isSelected)
-      .map(([prefCode, _]): Highcharts.SeriesOptionsType => {
+      .filter(([, isSelected]) => isSelected)
+      .map(([prefCode]): Highcharts.SeriesOptionsType => {
         const datasets = chartData[Number(prefCode)];
         if (!datasets) {
           return {
@@ -192,7 +192,7 @@ const PrefecturePopulationChart = () => {
     if (apiToken) {
       fetchPrefectures();
     }
-  }, [apiToken]);
+  }, [apiToken, fetchPrefectures]);
 
   useEffect(() => {
     Object.entries(selectedPrefectures).forEach(([prefCode, isSelected]) => {
@@ -200,9 +200,9 @@ const PrefecturePopulationChart = () => {
         fetchPopulationData(Number(prefCode));
       }
     });
-  }, [selectedPrefectures]);
+  }, [selectedPrefectures, fetchPopulationData, chartData]);
 
-  if (Object.entries(selectedPrefectures).filter(([_, isSelected]) => isSelected).length === 0) {
+  if (Object.entries(selectedPrefectures).filter(([, isSelected]) => isSelected).length === 0) {
     return (
       <div className="max-w-6xl mx-auto p-4 text-center text-gray-600">
         都道府県を選択してください

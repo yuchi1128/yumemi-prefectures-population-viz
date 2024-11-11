@@ -1,12 +1,6 @@
-// app/contexts/PrefectureContext.tsx
 "use client";
 
 import React, { createContext, useContext, useState } from 'react';
-
-type Prefecture = {
-  prefCode: number;
-  prefName: string;
-};
 
 type PrefectureContextType = {
   selectedPrefectures: Record<number, boolean>;
