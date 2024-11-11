@@ -1,20 +1,20 @@
+// app/components/PrefectureSelector.tsx
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePrefecture } from "../contexts/PrefectureContext";
 
 type Prefecture = {
   prefCode: number;
   prefName: string;
 };
 
-type CheckedState = Record<number, boolean>;
-
 const API_ENDPOINT = "https://yumemi-frontend-engineer-codecheck-api.vercel.app/api/v1/prefectures";
 
 const PrefectureSelector = () => {
   const apiToken = process.env.NEXT_PUBLIC_X_API_KEY;
   const [prefectureData, setPrefectureData] = useState<Prefecture[]>([]);
-  const [selectedPrefectures, setSelectedPrefectures] = useState<CheckedState>({});
+  const { selectedPrefectures, setSelectedPrefectures } = usePrefecture();
 
   const fetchPrefectureData = async (token: string) => {
     try {
@@ -23,9 +23,9 @@ const PrefectureSelector = () => {
           "X-API-KEY": token,
         },
       });
-      
+
       if (!res.ok) throw new Error("Failed to fetch prefecture data");
-      
+
       const { result } = await res.json();
       setPrefectureData(result);
     } catch (error) {
@@ -60,6 +60,7 @@ const PrefectureSelector = () => {
                 ? 'bg-blue-50 border-blue-300 text-blue-700' 
                 : 'bg-white hover:bg-gray-50 text-gray-700'}
             `}
+            onClick={() => togglePrefectureSelection(prefCode)}
           >
             <input
               type="checkbox"
