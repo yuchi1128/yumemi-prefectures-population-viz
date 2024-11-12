@@ -8,7 +8,8 @@ type Prefecture = {
   prefName: string;
 };
 
-const API_ENDPOINT = "https://yumemi-frontend-engineer-codecheck-api.vercel.app/api/v1/prefectures";
+const API_ENDPOINT =
+  "https://yumemi-frontend-engineer-codecheck-api.vercel.app/api/v1/prefectures";
 
 const PrefectureSelector = () => {
   const apiToken = process.env.NEXT_PUBLIC_X_API_KEY;
@@ -48,15 +49,14 @@ const PrefectureSelector = () => {
     setSelectedPrefectures({});
   };
 
-  const selectedCount = Object.values(selectedPrefectures).filter(Boolean).length;
+  const selectedCount =
+    Object.values(selectedPrefectures).filter(Boolean).length;
 
   return (
     <div className="max-w-[100rem] mx-auto pt-0 px-3 pb-4">
       <div className="flex flex-col items-center gap-4">
         <div className="flex items-center gap-3">
-          <span className="text-sm text-gray-600">
-            {selectedCount}件選択中
-          </span>
+          <span className="text-sm text-gray-600">{selectedCount}件選択中</span>
           {selectedCount > 0 && (
             <button
               onClick={clearAllSelections}
@@ -76,9 +76,11 @@ const PrefectureSelector = () => {
                 min-w-20 max-w-28
                 rounded-md border border-gray-200 shadow-sm 
                 cursor-pointer transition-all duration-200 ease-in-out
-                ${selectedPrefectures[prefCode] 
-                  ? 'bg-blue-50 border-blue-300 text-blue-700' 
-                  : 'bg-white hover:bg-gray-50 text-gray-700'}
+                ${
+                  selectedPrefectures[prefCode]
+                    ? "bg-blue-50 border-blue-300 text-blue-700"
+                    : "bg-white hover:bg-gray-50 text-gray-700"
+                }
               `}
             >
               <input
@@ -88,13 +90,17 @@ const PrefectureSelector = () => {
                 className={`
                   mr-1.5 h-3.5 w-3.5 rounded cursor-pointer
                   transition-colors duration-200
-                  ${selectedPrefectures[prefCode]
-                    ? 'text-blue-600 border-blue-600'
-                    : 'text-gray-500 border-gray-300'}
+                  ${
+                    selectedPrefectures[prefCode]
+                      ? "text-blue-600 border-blue-600"
+                      : "text-gray-500 border-gray-300"
+                  }
                 `}
                 aria-label={`${prefName}を選択`}
               />
-              <span className="text-sm font-medium whitespace-nowrap">{prefName}</span>
+              <span className="text-sm font-medium whitespace-nowrap">
+                {prefName}
+              </span>
             </label>
           ))}
         </div>
