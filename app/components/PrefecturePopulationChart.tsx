@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { usePrefecture } from '../contexts/PrefectureContext';
+import OptionSelector from './OptionSelector';
 
 type PopulationData = {
   year: number;
@@ -120,6 +121,9 @@ const PrefecturePopulationChart = () => {
       : "老年人口数（65歳以上）";
 
     return {
+      chart: {
+        height: 380
+      },
       title: {
         text: `${selectedDataType}の推移`
       },
@@ -216,6 +220,7 @@ const PrefecturePopulationChart = () => {
         highcharts={Highcharts}
         options={getChartOptions()}
       />
+      <OptionSelector />
     </div>
   );
 };
