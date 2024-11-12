@@ -1,4 +1,3 @@
-// app/components/PrefectureSelector.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -45,38 +44,60 @@ const PrefectureSelector = () => {
     }));
   };
 
+  const clearAllSelections = () => {
+    setSelectedPrefectures({});
+  };
+
+  const selectedCount = Object.values(selectedPrefectures).filter(Boolean).length;
+
   return (
-    <div className="max-w-6xl mx-auto p-4">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4">都道府県を選択</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
-        {prefectureData.map(({ prefCode, prefName }) => (
-          <button
-            key={prefCode}
-            className={`
-              relative flex items-center px-3 py-2 rounded-md
-              border border-gray-200 shadow-sm
-              transition-all duration-200 ease-in-out
-              ${selectedPrefectures[prefCode] 
-                ? 'bg-blue-50 border-blue-300 text-blue-700' 
-                : 'bg-white hover:bg-gray-50 text-gray-700'}
-            `}
-            onClick={() => togglePrefectureSelection(prefCode)}
-          >
-            <input
-              type="checkbox"
-              checked={selectedPrefectures[prefCode] ?? false}
-              onChange={() => togglePrefectureSelection(prefCode)}
+    <div className="max-w-[100rem] mx-auto pt-0 px-3 pb-4">
+      <div className="flex flex-col items-center gap-4">
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-gray-600">
+            {selectedCount}件選択中
+          </span>
+          {selectedCount > 0 && (
+            <button
+              onClick={clearAllSelections}
+              className="px-2 py-1 text-xs bg-white text-gray-600 hover:text-gray-900 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors duration-200"
+            >
+              全ての選択を解除
+            </button>
+          )}
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12 gap-2">
+          {prefectureData.map(({ prefCode, prefName }) => (
+            <label
+              key={prefCode}
               className={`
-                mr-2 h-4 w-4 rounded
-                transition-colors duration-200
-                ${selectedPrefectures[prefCode]
-                  ? 'text-blue-600 border-blue-600'
-                  : 'text-gray-500 border-gray-300'}
+                relative flex items-center px-2 py-1.5
+                min-w-20 max-w-28
+                rounded-md border border-gray-200 shadow-sm 
+                cursor-pointer transition-all duration-200 ease-in-out
+                ${selectedPrefectures[prefCode] 
+                  ? 'bg-blue-50 border-blue-300 text-blue-700' 
+                  : 'bg-white hover:bg-gray-50 text-gray-700'}
               `}
-            />
-            <span className="text-sm font-medium">{prefName}</span>
-          </button>
-        ))}
+            >
+              <input
+                type="checkbox"
+                checked={selectedPrefectures[prefCode] ?? false}
+                onChange={() => togglePrefectureSelection(prefCode)}
+                className={`
+                  mr-1.5 h-3.5 w-3.5 rounded cursor-pointer
+                  transition-colors duration-200
+                  ${selectedPrefectures[prefCode]
+                    ? 'text-blue-600 border-blue-600'
+                    : 'text-gray-500 border-gray-300'}
+                `}
+                aria-label={`${prefName}を選択`}
+              />
+              <span className="text-sm font-medium whitespace-nowrap">{prefName}</span>
+            </label>
+          ))}
+        </div>
       </div>
     </div>
   );
