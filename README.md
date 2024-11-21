@@ -22,8 +22,8 @@
 
 ### テスト
 
-`npm run cypress:open`
+`npm run cypress:open`  
 
-### フィードバック
+## フィードバック
 
-#### Good
+### Good
