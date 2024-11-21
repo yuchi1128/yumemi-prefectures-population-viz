@@ -14,6 +14,7 @@
 - Highcharts
 - ゆめみフロントエンドコーディング試験 API
 - Cypress
+- Vercel
 
 ### 起動
 
