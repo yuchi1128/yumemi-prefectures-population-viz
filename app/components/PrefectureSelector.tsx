@@ -67,7 +67,7 @@ const PrefectureSelector = () => {
           )}
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12 gap-2">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12 gap-2">
           {prefectureData.map(({ prefCode, prefName }) => (
             <label
               key={prefCode}
