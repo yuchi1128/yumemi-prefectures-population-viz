@@ -7,7 +7,7 @@
 
 ### 使用技術
 
-- TypeScript(Next.js)
+- Next.js(TypeScript)
 - Tailwind CSS
 - ESLint
 - Prettier
